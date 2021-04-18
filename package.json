@@ -2,13 +2,16 @@
   "name": "my_first_app",
   "version": "1.0.0",
   "description": "This is socket io chat app",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "devStart": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fs": "0.0.1-security",
+    "http": "0.0.1-security",
+    "path": "^0.12.7",
     "socket.io": "^4.0.1"
   },
   "devDependencies": {
