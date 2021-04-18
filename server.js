@@ -84,6 +84,15 @@ io.on('connection', socket=>{
         socket.broadcast.emit('user-disconnected',users[socket.id])
         delete users[socket.id]
     })
+
+    socket.on("hello_conect",()=>{
+        console.log('Hello from client.');
+        socket.emit("server_emit");
+      });
+    
+      socket.emit("server_emit",()=>{
+        console.log('server_emit fired');
+      });
 })
 //Socket io code
 
