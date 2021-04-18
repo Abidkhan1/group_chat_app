@@ -68,6 +68,7 @@ const io = require("socket.io")(server, {
   });
 
 const users = {}
+const url = "http://omnicode.tech/wego/dev";
 
 io.on('connection', socket=>{
     socket.on('new-user',name=>{
@@ -85,6 +86,7 @@ io.on('connection', socket=>{
         delete users[socket.id]
     })
 
+    //////////Wego emits/listeners here
     socket.on("hello_conect",()=>{
         console.log('Hello from client.');
         socket.emit("server_emit");
@@ -93,6 +95,58 @@ io.on('connection', socket=>{
       socket.emit("server_emit",()=>{
         console.log('server_emit fired');
       });
+
+      socket.on('user_connected',function(user_id){
+        console.log('user connected id : '+user_id);
+        socket.emit('received');
+    })
+
+    socket.on('mobile_event',function(user_id){
+        console.log('Mobile Event Received with user_id : '+user_id);
+        socket.emit('mobile_event_received','Mobile Event Received successfully.');
+    })
+
+    socket.on('add_ride',function(data){
+        let obj = JSON.parse(data);
+
+        console.log('add_ride Data : ',obj);
+        var options = {
+            headers: {
+                'User-Agent': 'axios'
+            }
+        };
+        //make Axios call to add new ride
+        axios.post(url+"/weGO/api/add_new_ride",obj)
+        .then(response=>{
+          console.log('response:',response.data.data.ride_id);
+          socket.emit('new_ride_created',JSON.stringify({
+            ride_id:response.data.data.ride_id,
+          }));
+        })
+        .catch(err=>{
+          console.log('error:',err);
+        })
+    })//add ride listener
+
+    socket.on('new_location',function(data){
+      //this will provide user_id, lat, long
+        let obj = JSON.parse(data);
+        console.log('new_location Data : ',obj);
+        var options = {
+            headers: {
+                'User-Agent': 'axios'
+            }
+        };
+        //make Axios call to add new ride
+        axios.post(url+"/weGO/api/update_user_location",obj)
+        .then(response=>{
+          console.log('update_user_location response:');
+          socket.emit('location_updated','Location updated successfully');
+        })
+        .catch(err=>{
+          console.log('error:',err);
+        })
+    })//new_location listener
 })
 //Socket io code
 
