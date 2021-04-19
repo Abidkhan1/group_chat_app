@@ -1,6 +1,7 @@
 const http = require('http');
 const path = require('path');
 const fs   = require('fs');
+const axios = require('axios');
 
 const server = http.createServer((req, res)=>{
 
@@ -68,7 +69,8 @@ const io = require("socket.io")(server, {
   });
 
 const users = {}
-const url = "http://omnicode.tech/wego/dev";
+// const url = "http://omnicode.tech/wego/dev"; 
+const url = "http://localhost/weGO";
 
 io.on('connection', socket=>{
     socket.on('new-user',name=>{
@@ -116,7 +118,7 @@ io.on('connection', socket=>{
             }
         };
         //make Axios call to add new ride
-        axios.post(url+"/weGO/api/add_new_ride",obj)
+        axios.post(url+"/api/add_new_ride",obj)
         .then(response=>{
           console.log('response:',response.data.data.ride_id);
           socket.emit('new_ride_created',JSON.stringify({
@@ -138,7 +140,7 @@ io.on('connection', socket=>{
             }
         };
         //make Axios call to add new ride
-        axios.post(url+"/weGO/api/update_user_location",obj)
+        axios.post(url+"/api/update_user_location",obj)
         .then(response=>{
           console.log('update_user_location response:');
           socket.emit('location_updated','Location updated successfully');
