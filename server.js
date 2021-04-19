@@ -69,8 +69,8 @@ const io = require("socket.io")(server, {
   });
 
 const users = {}
-// const url = "http://omnicode.tech/wego/dev"; 
-const url = "http://localhost/weGO";
+const url = "http://omnicode.tech/wego/dev"; 
+// const url = "http://localhost/weGO";
 
 io.on('connection', socket=>{
     socket.on('new-user',name=>{
