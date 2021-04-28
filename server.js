@@ -122,7 +122,7 @@ io.on('connection', socket=>{
         .then(response=>{
           console.log('response:',response.data.data.ride_id);
           socket.emit('new_ride_created',JSON.stringify({
-            ride_id:response.data.data.ride_id,
+            ride:response.data.data.ride,
           }));
         })
         .catch(err=>{
