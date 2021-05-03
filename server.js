@@ -91,11 +91,7 @@ io.on('connection', socket=>{
     //////////Wego emits/listeners here
     socket.on("hello_connect",()=>{
         console.log('Hello from client.');
-        socket.emit('server_emit','server_emit:: response from server');
-      });
-    
-      socket.emit("server_emit",()=>{
-        console.log('server_emit fired');
+        socket.broadcast.emit('server_emit','server_emit:: response from server');
       });
 
       socket.on('user_connected',function(user_id){
@@ -121,7 +117,7 @@ io.on('connection', socket=>{
         axios.post(url+"/api/add_new_ride",obj)
         .then(response=>{
           console.log('response:',response.data.data.ride);
-          socket.emit('new_ride_created',JSON.stringify({
+          socket.broadcast.emit('new_ride_created',JSON.stringify({
             ride:response.data.data.ride,
           }));
         })
@@ -143,7 +139,7 @@ io.on('connection', socket=>{
         axios.post(url+"/api/update_user_location",obj)
         .then(response=>{
           console.log('update_user_location response:');
-          socket.emit('location_updated','Location updated successfully');
+          socket.broadcast.emit('location_updated','Location updated successfully');
         })
         .catch(err=>{
           console.log('error:',err);
