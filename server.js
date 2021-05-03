@@ -91,7 +91,7 @@ io.on('connection', socket=>{
     //////////Wego emits/listeners here
     socket.on("hello_conect",()=>{
         console.log('Hello from client.');
-        socket.emit("server_emit");
+        socket.emit("server_emit","server_emit:: response from server");
       });
     
       socket.emit("server_emit",()=>{
