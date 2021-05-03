@@ -120,7 +120,7 @@ io.on('connection', socket=>{
         //make Axios call to add new ride
         axios.post(url+"/api/add_new_ride",obj)
         .then(response=>{
-          console.log('response:',response.data.data.ride_id);
+          console.log('response:',response.data.data.ride);
           socket.emit('new_ride_created',JSON.stringify({
             ride:response.data.data.ride,
           }));
